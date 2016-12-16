@@ -1,0 +1,208 @@
+# i3 config file (v4)
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!  
+set $mod Mod4
+
+font pango:Ubuntu 10
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# i3-gaps
+set $gapsize 7
+for_window [class="^.*"] border pixel 0
+smart_gaps on
+gaps inner $gapsize
+gaps outer $gapsize
+bindsym $mod+Shift+i gaps inner all set 0, gaps outer all set 0
+bindsym $mod+Shift+u gaps inner all set $gapsize, gaps outer all set $gapsize
+
+# start a terminal
+bindsym $mod+Return exec terminator
+bindsym XF86Launch1 exec terminator
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start dmenu (a program launcher)
+bindsym $mod+d exec dmenu_run
+#bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 400 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "Ubuntu 18"
+
+# change focus
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+h focus left
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+h move left
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+g split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+bindsym $mod+r mode "resize"
+
+mode "resize" {
+        bindsym j resize shrink height 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+# bar
+set $bar-bg               #1c1c1c
+set $bar-separator        #a8a19f
+
+set $bar-focused-border   #a8a19f
+set $bar-focused-bg       #1b1918
+set $bar-focused-text     #f1efee
+
+set $bar-inactive-border  #2c2421
+set $bar-inactive-bg      #1b1918
+set $bar-inactive-text    #68615e
+
+set $bar-urgent-border    #f22c40
+set $bar-urgent-bg        #1b1918
+set $bar-urgent-text      #f22c40
+
+bar {
+    status_command python ~/.i3/status.py
+
+    colors {
+        background $bar-bg
+        separator $bar-separator
+        #                  border               background         text
+        focused_workspace  $bar-focused-border  $bar-focused-bg    $bar-focused-text
+        inactive_workspace $bar-inactive-border $bar-inactive-bg   $bar-inactive-text
+        urgent_workspace   $bar-urgent-border   $bar-urgent-bg     $bar-urgent-text
+        } 
+}
+
+set $border-color         #323537
+set $focused-text-color   #FFFFFF
+set $focused-border-color #161616
+set $urgent-border-color  #CF6A4C
+set $indicator-color      #1b1918
+
+# window colors
+#                       border                  background              text                    indicator
+client.focused          $focused-border-color   $focused-border-color   $bar-focused-text       $focused-border-color
+client.unfocused        $focused-border-color   $border-color   $bar-inactive-text      $border-color
+client.focused_inactive $focused-border-color   $border-color   $bar-inactive-text      $border-color
+client.urgent           $urgent-bg-color        $urgent-border-color    $bar-focsed-text        $border-color
+
+# media keys - volume
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec amixer set Master toggle
+bindsym XF86AudioMicMute exec amixer set Capture toggle
+
+# backlight
+bindsym XF86MonBrightnessDown exec xbacklight -5%
+bindsym XF86MonBrightnessUp exec xbacklight +5%
+
+# screenlock
+bindsym XF86ScreenSaver exec i3lock 
+
+# arandr
+bindsym XF86Display exec arandr
+
+# calendar 
+bindsym $mod+c exec zenity --calendar
+
+bindsym XF86Lock exec /home/lz1irq/scripts/lock_scr.sh
+
+# screenshots
+bindsym Print exec /home/lz1irq/projects/imgurshot/imgurshot.sh
+bindsym Control+Print exec /home/lz1irq/projects/imgurshot/imgurshot.sh --area
+
+# set wallpaper
+exec feh --bg-fill /home/lz1irq/pictures/wallpapers/current
+
+#startup programs
+exec_always setxkbmap -model pc101 -layout us,bg -variant ,phonetic -option grp:caps_toggle, grp_led:caps
+exec --no-startup-id nm-applet
+
+# cmus
+bindsym XF86AudioPlay exec cmus-remote -u
+bindsym XF86AudioNext exec cmus-remote -n
+bindsym XF86AudioPrev exec cmus-remote -r
+
+# multimonitor
+bindsym $mod+Shift+s exec --no-startup-id /home/lz1irq/scripts/i3mon.sh
