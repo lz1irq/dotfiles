@@ -21,4 +21,8 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
 alias tmux="tmux -2"
-export PATH=$PATH:/home/lz1irq/scripts
+alias ytmp3="youtube-dl --extract-audio --audio-format mp3"
+PATH=$PATH:/home/lz1irq/scripts
+export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+
+export GEM_HOME=$(ruby -e 'print Gem.user_dir')
